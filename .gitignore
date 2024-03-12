@@ -2,4 +2,6 @@
 .env
 
 # c
-c/hello
+c/*
+c/*.o
+c/**/*
