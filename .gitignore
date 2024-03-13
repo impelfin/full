@@ -1,7 +1,7 @@
-# .env
+## .env
 .env
 
-# c
+## c
 c/*
 c/*.o
 c/**/*
@@ -11,3 +11,7 @@ c/**/*
 !c/**/lib/*.h
 !c/**/Makefile
 !c/**/Makefile.*
+
+## java
+**/*.class
+
