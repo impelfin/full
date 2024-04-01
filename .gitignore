@@ -30,3 +30,8 @@ node/**/package-lock.json
 python/**/.venv
 python/**/__pycache__/
 
+## oracle
+oracle/node/dbConfig.js
+oracle/node/node_modules
+oracle/node/package-lock.json
+
