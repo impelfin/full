@@ -101,7 +101,7 @@ app.post('/delete', function (req, res, next) {
 
 module.exports = app;
 
-async.series([query1, query2, query3, query4, query5, query6], function (err, result) {
+async.series([query6, query5, query4, query3, query2, query1], function (err, result) {
     if (err) {
         console.log('Error' + err)
     } else {
@@ -131,7 +131,8 @@ function query2(callback) {
 
 function query3(callback) {
     // select * from users where city="Seoul" order by userid limit 3
-    User.find({ 'city': 'Seoul' }, { '_id': 0 }).sort({ 'userid': 1 })
+    User.find({ 'city': 'Seoul' }, { '_id': 0 })
+        .sort({ 'userid': 1 })
         .limit(3).exec(function (err, user) {
             console.log('\nQuery 3')
             console.log(user + "\n")
