@@ -26,7 +26,7 @@ let insertId = data.st_id;
 //insert query
 result = connection.query("insert into st_info values (?, ?, ?)",
     [insertId, data.name, data.dept]);
-console.log("Data is inserted~!!");
+console.log("\nData is inserted~!!");
 
 // select * query for inserted data
 result = connection.query("select * from st_info where st_id=?", [insertId]);
@@ -34,7 +34,7 @@ console.log(result);
 
 // update query
 result = connection.query("update st_info set dept=? where st_id=?", ["Game", insertId]);
-console.log("Data is Updated~!!");
+console.log("\nData is Updated~!!");
 
 // select * query for updated data
 result = connection.query("select * from st_info where st_id=?", [insertId]);
@@ -42,7 +42,7 @@ console.log(result);
 
 // delete query
 result = connection.query("delete from st_info where st_id=?", [insertId]);
-console.log('Data is Deleted~!!');
+console.log('\nData is Deleted~!!');
 
 // select * query for updated data
 result = connection.query("select * from st_info");
