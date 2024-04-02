@@ -70,7 +70,7 @@ app.post('/update', function (req, res, next) {
         user.save(function (err, slience) {
             if (err) {
                 console.log('err')
-                res.status(500).send('Upate Error')
+                res.status(500).send('Update Error')
                 return;
             }
             res.status(200).send('Updated~!!')
@@ -83,13 +83,19 @@ app.post('/delete', function (req, res, next) {
     var userid = req.body.userid
     var user = User.find({ 'userid': userid })
 
-    user.remove(function (err) {
-        if (err) {
-            console.log('err')
-            res.status(500).send('Delete Error')
-            return
-        }
+    // // deprecated delete 
+    // user.remove(function (err) {
+    //     if (err) {
+    //         console.log('err')
+    //         res.status(500).send('Delete Error')
+    //         return
+    //     }
+    //     res.status(200).send('Deleted~!!')
+    // })
+    user.deleteOne({ 'userid': userid }).then(function () {
         res.status(200).send('Deleted~!!')
+    }).catch(function (error) {
+        console.log(error)
     })
 })
 
