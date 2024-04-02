@@ -17,7 +17,6 @@ var connection = new mysql({
     password: process.env.password,
     database: process.env.database
 });
-
 app.get('/Hello', (req, res) => {
     res.send("Hello World")
 })
