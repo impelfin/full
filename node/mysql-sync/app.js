@@ -9,6 +9,7 @@ var connection = new mysql({
     database: process.env.database
 });
 
+// select from st_info table
 let result = connection.query('select * from st_info');
 console.log(result);
 
@@ -41,7 +42,7 @@ console.log(result);
 
 // delete query
 result = connection.query("delete from st_info where st_id=?", [insertId]);
-console.log('Data is Delete~!!');
+console.log('Data is Deleted~!!');
 
 // select * query for updated data
 result = connection.query("select * from st_info");
