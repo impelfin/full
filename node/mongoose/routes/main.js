@@ -92,7 +92,7 @@ app.post('/delete', function (req, res, next) {
     //     }
     //     res.status(200).send('Deleted~!!')
     // })
-    user.deleteOne({ 'userid': userid }).then(function () {
+    user.deleteMany({ 'userid': userid }).then(function () {
         res.status(200).send('Deleted~!!')
     }).catch(function (error) {
         console.log(error)
