@@ -1,10 +1,6 @@
 {
   "users": [
     {
-      "id": "1",
-      "name": "moon"
-    },
-    {
       "userID": "1",
       "firstname": "AAA",
       "lastname": "node",
