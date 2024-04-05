@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>quiz3</title>
+</head>
+<body>
+    <h3>랜덤 배열 생성 후 값 뒤집어 저장한 후 출력</h3>
+    <hr />
+    <script>
+        let n = 10;
+        let array = new Array(n);
+        let temp = 0;
+        document.write("배열의 길이 : " + n + "<br>")
+        document.write("전체 배열의 값 : ")
+        for (let i=0; i<=n-1; i++) {
+            array[i] = (Math.floor(Math.random() * 100 + 1))
+            document.write(array[i] + " ")
+        }
+        document.write("<br> Reverse 배열 : ")
+        if (n%2==1) {
+            for (i=0; i<=parseInt(n/2); i++) {
+            temp = array[i]
+            array[i] = array[n-1-i]
+            array[n-1-i] = temp
+            } 
+        } else {
+            for (i=0; i<=parseInt(n/2)-1; i++) {
+            temp = array[i]
+            array[i] = array[n-1-i]
+            array[n-1-i] = temp
+            } 
+        }
+        
+        for (i=0; i<=n-1; i++) document.write(array[i] + " ")
+    </script>
+</body>
+</html>
