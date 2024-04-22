@@ -1,0 +1,59 @@
+
+SQL*Loader: Release 11.2.0.2.0 - Production on 월 4월 22 17:28:22 2024
+
+Copyright (c) 1982, 2009, Oracle and/or its affiliates.  All rights reserved.
+
+Control File:   myterror.ctl
+Data File:      myterror.csv
+  Bad File:     myterror.bad
+  Discard File:  none specified
+ 
+ (Allow all discards)
+
+Number to load: ALL
+Number to skip: 1
+Errors allowed: 50
+Bind array:     64 rows, maximum of 256000 bytes
+Continuation:    none specified
+Path used:      Conventional
+
+Table MYTERROR, loaded from every logical record.
+Insert option in effect for this table: INSERT
+TRAILING NULLCOLS option in effect
+
+   Column Name                  Position   Len  Term Encl Datatype
+------------------------------ ---------- ----- ---- ---- ---------------------
+EVENTID                             FIRST     *   ,  O(") CHARACTER            
+IYEAR                                NEXT     4           INTEGER              
+IMONTH                               NEXT     4           INTEGER              
+IDAY                                 NEXT     4           INTEGER              
+COUNTRY                              NEXT     4           INTEGER              
+COUNTRY_TXT                          NEXT     *   ,  O(") CHARACTER            
+REGION                               NEXT     4           INTEGER              
+REGION_TXT                           NEXT     *   ,  O(") CHARACTER            
+PROVSTATE                            NEXT     *   ,  O(") CHARACTER            
+CITY                                 NEXT     *   ,  O(") CHARACTER            
+LATITUDE                             NEXT     4           FLOAT                
+LONGITUDE                            NEXT     4           FLOAT                
+
+
+Table MYTERROR:
+  57196 Rows successfully loaded.
+  0 Rows not loaded due to data errors.
+  0 Rows not loaded because all WHEN clauses were failed.
+  0 Rows not loaded because all fields were null.
+
+
+Space allocated for bind array:                  84352 bytes(64 rows)
+Read   buffer bytes: 1048576
+
+Total logical records skipped:          1
+Total logical records read:         57196
+Total logical records rejected:         0
+Total logical records discarded:        0
+
+Run began on 월 4월  22 17:28:22 2024
+Run ended on 월 4월  22 17:28:24 2024
+
+Elapsed time was:     00:00:01.72
+CPU time was:         00:00:00.27
