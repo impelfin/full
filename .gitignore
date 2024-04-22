@@ -30,6 +30,7 @@ node/conf/*
 ## python venv 
 python/**/.venv
 python/**/__pycache__/
+python/secret.json
 
 ## oracle
 oracle/node/dbConfig.js
