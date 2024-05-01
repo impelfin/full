@@ -1,12 +1,17 @@
 #!/usr/bin/env python
 
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 
 from PIL import Image
 from wordcloud import WordCloud
 from wordcloud import STOPWORDS
 from wordcloud import ImageColorGenerator
+
+# plt.rc('font', family='NanumSquare')
+# pip install --upgrade pip
+# pip install --upgrade Pillow
 
 image_file = 'alice.png'
 
