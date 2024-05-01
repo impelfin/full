@@ -62,7 +62,7 @@ class Visualization:
         print(filename + ' file saved..')
 
 # filename = '문재인대통령신년사.txt'
-filename = '노무현독도명연설.txt'
+filename = 'president_speech.txt'
 ko_con_text = open(filename, encoding='utf-8').read()
 print(type(ko_con_text))
 print('-' * 40)
