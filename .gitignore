@@ -41,3 +41,5 @@ oracle/node/node_modules
 oracle/node/package-lock.json
 oracle/**/myterror.csv
 
+# aws
+.c9
