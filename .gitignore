@@ -43,3 +43,4 @@ oracle/**/myterror.csv
 
 # aws
 .c9
+**/uploadedFiles
