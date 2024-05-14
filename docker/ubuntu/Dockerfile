@@ -1,7 +1,6 @@
 # Step1 : Base Images
 FROM ubuntu
 
-
 # Step2 : Install Program
 RUN apt -y update; apt -y upgrade; apt -y install -q nginx && apt -y install vim
 

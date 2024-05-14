@@ -1,5 +1,5 @@
 build:
-	docker build .
+	docker build -t ubuntu:x .
 run:
 	docker run -it --name ubuntu -d -p 8000:80 ubuntu:x 
 exec:
