@@ -1,7 +1,7 @@
 build:
 	docker build -t python .
 run:
-	docker run -it -d -p 8000:8000 -v /root/python:/root --name python python
+	docker run -it -d -p 8000:8000 -v /Users/lune/Documents/Github/full/docker/python/data:/root --name python python
 exec:
 	docker exec -it python /bin/bash
 start:
