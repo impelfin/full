@@ -1,21 +1,20 @@
-# Step 1 : Base Images
+# step 1 : Base Images
 FROM python:3.9
 
-# Step 2 : Package Install
+# step 2 : Package Install
 RUN apt -y update && apt -y upgrade && apt -y install git net-tools vim
 
-# Step 3 : Specify a working directory
-WORKDIR /root
+# step 3 : Specify a working directory
+WORKDIR '/root'
 
-# Step 4 : Config file copy
+# step 4 : Config file copy
 COPY .bashrc .
-COPY .exec .
+COPY .exrc .
 COPY hello.py .
-RUN pip install --upgrade pip
 RUN pip install bottle
 
-# Step 5 : Open port
-EXPOSE 8000
+# step 5 : open port
+EXPOSE 3000
 
-# Step 6 : Execute command
+# step 6 : Execution Program
 CMD ["python", "hello.py"]
