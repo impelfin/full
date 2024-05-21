@@ -12,6 +12,5 @@ img:
 	docker images
 rm:
 	docker rm -f $$(docker ps -aq)
-
 rmi:
 	docker rmi $$(docker images -q)
