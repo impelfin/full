@@ -1,5 +1,5 @@
 all : appdep getdep getsvc getpod
-restart : delsvc deldep delpod appdep getdep getsvc getpod
+restart : delsvc deldep appdep getdep getsvc getpod
 getnode:
 	kubectl get nodes
 appdep:
