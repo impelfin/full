@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mario
+  labels:
+    app: mario
+spec:
+  replicas: 1   # three pod
+  selector:
+    matchLabels:
+      app: mario
+  template:
+    metadata:
+      labels:
+        app: mario
+    spec:
+      containers:
+        - name: mario
+          image: pengbai/docker-supermario
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mario
+spec:
+  selector:
+    app: mario
+  ports:
+    - nodePort: 31000 # outter port
+      port: 80        # service port
+      targetPort: 80    # container port (pod port)
+      protocol: TCP
+  type: LoadBalancer  
+  externalIPs:
+    - 3.37.52.229 # master public iP
+    
