@@ -1,9 +1,9 @@
 build:
 	docker build -t treyyoder/quakejs:latest .
 run:
-	docker run -d --name quakejs -e HTTP_PORT=8080 -p 8080:80 -p 27960:27960 treyyoder/quakejs:latest
+	docker run -d --name quake -e HTTP_PORT=8080 -p 8080:80 -p 27960:27960 treyyoder/quakejs:latest
 logs:
-	docker logs quakejs
+	docker logs quake
 ps:
 	docker ps -a
 img:
