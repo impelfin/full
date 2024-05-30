@@ -1,5 +1,6 @@
 all : appdep getdep getsvc getpod
-restart : delsvc deldep appdep getdep getsvc getpod
+restart : delsvc deldep delpod appdep getdep getsvc getpod
+stop: delsvc deldep delpod
 getnode:
 	kubectl get nodes
 appdep:
@@ -14,3 +15,12 @@ delsvc:
 	kubectl delete svc mario 
 deldep:
 	kubectl delete deployment mario
+delpod:
+	kubectl get pod | grep mario | awk '{print $$1}' | xargs -I {} kubectl delete pod {} --force
+desdep:
+	kubectl describe deployment mario
+dessvc:
+	kubectl describe svc mario
+despod:
+	kubectl describe pod mario
+	

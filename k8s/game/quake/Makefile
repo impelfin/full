@@ -1,5 +1,6 @@
 all : appdep getdep getsvc getpod
-restart : delsvc deldep appdep getdep getsvc getpod
+restart : delsvc deldep delpod appdep getdep getsvc getpod
+stop: delsvc deldep delpod
 getnode:
 	kubectl get nodes
 appdep:
@@ -14,3 +15,12 @@ delsvc:
 	kubectl delete svc quake 
 deldep:
 	kubectl delete deployment quake
+delpod:
+	kubectl get pod | grep quake | awk '{print $$1}' | xargs -I {} kubectl delete pod {} --force
+desdep:
+	kubectl describe deployment quake
+dessvc:
+	kubectl describe svc quake
+despod:
+	kubectl describe pod quake
+
