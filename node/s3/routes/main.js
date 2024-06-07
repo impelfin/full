@@ -4,12 +4,12 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const env = require('dotenv').config({path: '../../../.env'});
+const env = require('dotenv').config({ path: '../../.env' });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 const AWS = require('aws-sdk');
 const ID = process.env.ID;
@@ -31,8 +31,8 @@ var storage = multer.diskStorage({
   },
 });
 
-var upload = multer({dest: 'uploadedFiles/'});
-var uploadWithOriginalFilename = multer({storage: storage});
+var upload = multer({ dest: 'uploadedFiles/' });
+var uploadWithOriginalFilename = multer({ storage: storage });
 
 app.get('/', function (req, res) {
   res.render('upload');
@@ -95,39 +95,31 @@ app.get('/list', (req, res) => {
   });
 });
 
-app.post(
-  '/uploadFile',
-  uploadWithOriginalFilename.single('attachment'),
-  function (req, res) {
-    res.render('confirmation', {file: req.file, files: null});
+app.post('/uploadFile', uploadWithOriginalFilename.single('attachment'), function (req, res) {
+  res.render('confirmation', { file: req.file, files: null });
 
-    console.log(req.file.filename);
-    const filename = req.file.filename;
-    const file = 'uploadedFiles/' + filename;
-    const uploadFile = filename => {
-      const fileContent = fs.readFileSync(filename);
-      const params = {
-        Bucket: BUCKET_NAME,
-        Key: filename,
-        Body: fileContent,
-      };
-      s3.upload(params, function (err, data) {
-        if (err) {
-          return console.log(err);
-        }
-        console.log(`File uploaded successfully. ${data.Location}`);
-      });
+  console.log(req.file.filename);
+  const filename = req.file.filename;
+  const file = 'uploadedFiles/' + filename;
+  const uploadFile = filename => {
+    const fileContent = fs.readFileSync(filename);
+    const params = {
+      Bucket: BUCKET_NAME,
+      Key: filename,
+      Body: fileContent,
     };
-    uploadFile(file);
+    s3.upload(params, function (err, data) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(`File uploaded successfully. ${data.Location}`);
+    });
+  };
+  uploadFile(file);
 
-    const filePath = path.join(__dirname, '../uploadedFiles', filename);
-    fs.unlink(filePath, err =>
-      err
-        ? console.log(err)
-        : console.log(`File delete successfully. ${filePath}`),
-    );
-  },
-);
+  const filePath = path.join(__dirname, '../uploadedFiles', filename);
+  fs.unlink(filePath, err => (err ? console.log(err) : console.log(`File delete successfully. ${filePath}`)));
+});
 
 app.post('/downloadFile', function (req, res) {
   var filename = req.body.dlKey;
