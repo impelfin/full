@@ -2,28 +2,20 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>mongoose Example</title>
+        <title>Weather Status</title>
     </head>
     <body>
-        <h1>mongoose Example</h1>
+        <h1>Weather Status</h1>
         <hr />
-        <form method="post" action="/insert" name="mongoForm" target="targetURL">
-            <input type="button" value="Users Collection" onclick='document.targetURL.location.href="/list"'/>
-            <input type="button" value="get User" onclick='document.targetURL.location.href="/get?input="+document.mongoForm.userid.value'/><p />
-            Userid &nbsp;<input type="text" size=10 name="userid" /><p />
-            Name &nbsp;&nbsp;<input type="text" size=10 name="name" /><p />
-            City &nbsp;&nbsp;<input type="text" size=10 name="city" /><p />
-            Sex &nbsp;&nbsp;<input type="radio" size=10 name="sex" value="male" />male
-            <input type="radio" size=10 name="sex" value="female" checked="checked" />female<p />
-            Age &nbsp;&nbsp;<input type="text" size=10 name="age" /><p />
-            <hr />
-            <input type="submit" value="insert" onclick='this.form.action="/insert"' />&nbsp;&nbsp;
-            <input type="submit" value="update" onclick='this.form.action="/update"' />&nbsp;&nbsp;
-            <input type="submit" value="delete" onclick='this.form.action="/delete"' />
+        <form name="dataform">
+            <input type="button" value="Weather - API get data" onclick='document.targetURL.location.href="/getdata"'/>
+            <p />
+            <input type="button" value="Weather - MongoDB Collection Data" onclick='document.targetURL.location.href="/list"'/>
+            <p />
         </form>
         <br>
         <hr />
-        <iframe name="targetURL" class="iframe-preview center" width="90%" height="500" style="border:none" src="http://192.168.1.53:8000/Hello">
+        <iframe name="targetURL" class="iframe-preview center" width="90%" height="510" style="border:none" src="/list">
         </iframe>
     </body>
 </html>

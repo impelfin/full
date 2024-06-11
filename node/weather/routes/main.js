@@ -1,179 +1,98 @@
-const express = require('express')
-const app = express.Router()
-const mongoose = require("mongoose")
-const async = require('async')
+const express = require('express');
+const app = express.Router();
+const mongoose = require('mongoose');
+const request = require('request');
+const moment = require('moment');
+const datautil = require('data-utils');
+const mongoClient = require('mongodb').MongoClient;
+
+let day = new Date().toLocaleDateString('sv').replaceAll('-', '');
+day = day - 1;
+
+var keys = 'B%2FNiJnYmkZV1%2FK7ulvZI4MoSXvCTDfNAd0Snw%2Bk6g4%2BbMk1LoGVhd75DJahjv4K35Cr9jh9RX0j%2BM89grKBYsw%3D%3D';
+var url = 'https://apis.data.go.kr/1360000/WthrChartInfoService/getAuxillaryChart';
+
+var queryParams = '?' + encodeURIComponent('ServiceKey') + '=' + keys;
+queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
+queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10');
+queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
+queryParams += '&' + encodeURIComponent('code1') + '=' + encodeURIComponent('N500');
+queryParams += '&' + encodeURIComponent('code2') + '=' + encodeURIComponent('ANL');
+queryParams += '&' + encodeURIComponent('time') + '=' + encodeURIComponent(day);
 
 // define schema
-var userSchema = mongoose.Schema({
-    userid: String,
-    name: String,
-    city: String,
-    sex: String,
-    age: Number
-}, {
-    versionKey: false
-})
+var DataSchema = mongoose.Schema({
+  dav_v: String,
+  imgSrc1_v: String,
+  imgSrc2_v: String,
+});
 
 // create model with mongodb collection and schema
-var User = mongoose.model('users', userSchema)
+var Data = mongoose.model('weathers', DataSchema);
 
-app.get("/Hello", function (req, res) {
-    res.send("Hello World~!!")
-})
+app.get('/getdata', function (req, res, next) {
+  request(
+    {
+      url: url + queryParams,
+      method: 'GET',
+    },
+    function (error, response, body) {
+      Data.find({}).remove().exec();
+      if (error) console.log(error);
+      let data = JSON.parse(body);
+      console.log(data);
+      let imgSrcArr = data['response']['body']['items']['item'][0]['n500-file'].split(',');
+      let imgSrc1 = imgSrcArr[0].slice(1);
+      let imgSrc2 = imgSrcArr[1].slice(1);
+      console.log('imgSrc1 : ' + imgSrc1);
+      console.log('imgSrc2 : ' + imgSrc2);
+
+      res.writeHead(200);
+      var template = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Weather</title>
+          <meta charset="utf-8">
+        </head>
+        <body>
+          <img src="${imgSrc1}" width="500" height="500"/>
+          <img src="${imgSrc2}" width="500" height="500"/>
+        </body>
+        </html>
+        `;
+      res.end(template);
+
+      var newData = new Data({ day_v: day, imgSrc1_v: imgSrc1, imgSrc2_v: imgSrc2 });
+      newData.save(function (err, result) {
+        if (err) return console.error(err);
+        console.log(new Date(), result);
+      });
+    },
+  );
+});
 
 // list
 app.get('/list', function (req, res, next) {
-    User.find({}, function (err, docs) {
-        if (err) console.log('err')
-        res.send(docs)
-    }).projection({ _id: 0 })
-})
-
-// get
-app.get('/get', function (req, res, next) {
-    var userid = req.query.input
-    User.findOne({ 'userid': userid }, function (err, docs) {
-        if (err) console.log('err')
-        res.send(docs)
-    }).projection({ _id: 0 })
-})
-
-// insert
-app.post('/insert', function (req, res, next) {
-    var { userid, name, city, sex, age } = req.body
-    var user = new User({ 'userid': userid, 'name': name, 'city': city, 'sex': sex, 'age': age })
-
-    user.save(function (err, slience) {
-        if (err) {
-            console.log('err')
-            res.status(500).send('Insert Error')
-            return;
-        }
-        res.status(200).send('Inserted~!!')
-    })
-})
-
-// update
-app.post('/update', function (req, res, next) {
-    var { userid, name, city, sex, age } = req.body
-    User.findOne({ 'userid': userid }, function (err, user) {
-        if (err) {
-            console.log('err')
-            res.status(500).send('Update Error')
-            return
-        }
-        user.name = name
-        user.city = city
-        user.sex = sex
-        user.age = age
-
-        user.save(function (err, slience) {
-            if (err) {
-                console.log('err')
-                res.status(500).send('Update Error')
-                return;
-            }
-            res.status(200).send('Updated~!!')
-        })
-    })
-})
-
-// delete
-app.post('/delete', function (req, res, next) {
-    var userid = req.body.userid
-    var user = User.find({ 'userid': userid })
-
-    // // deprecated delete 
-    // user.remove(function (err) {
-    //     if (err) {
-    //         console.log('err')
-    //         res.status(500).send('Delete Error')
-    //         return
-    //     }
-    //     res.status(200).send('Deleted~!!')
-    // })
-    user.deleteMany({ 'userid': userid }).then(function () {
-        res.status(200).send('Deleted~!!')
-    }).catch(function (error) {
-        console.log(error)
-    })
-})
+  Data.findOne({}, function (err, docs) {
+    if (err) console.log('err');
+    console.log(docs);
+    res.writeHead(200);
+    var template = `
+    <!doctype html>
+    <html>
+    <head>
+      <title>Result</title>
+      <meta charset="urf-8">
+    </head>
+    <body>
+      <img src="${docs['imgSrc1_v']}" width="500" height="500"/>
+      <img src="${docs['imgSrc2_v']}" width="500" height="500"/>
+    </body>
+    </html>
+    `;
+    res.end(template);
+  }).projection({ _id: 0 });
+});
 
 module.exports = app;
-
-async.series([query6, query5, query4, query3, query2, query1], function (err, result) {
-    if (err) {
-        console.log('Error' + err)
-    } else {
-        console.log('Task finish~!!')
-    }
-})
-
-function query1(callback) {
-    // select * from users
-    User.find({}, { '_id': 0 })
-        .exec(function (err, user) {
-            console.log('\nQuery 1')
-            console.log(user + "\n")
-            callback(null)
-        })
-}
-
-function query2(callback) {
-    // select userid, name, city from users
-    User.find({}, { '_id': 0, 'userid': 1, 'name': 1, 'city': 1 })
-        .exec(function (err, user) {
-            console.log('\nQuery 2')
-            console.log(user + "\n")
-            callback(null)
-        })
-}
-
-function query3(callback) {
-    // select * from users where city="Seoul" order by userid limit 3
-    User.find({ 'city': 'Seoul' }, { '_id': 0 })
-        .sort({ 'userid': 1 })
-        .limit(3).exec(function (err, user) {
-            console.log('\nQuery 3')
-            console.log(user + "\n")
-            callback(null)
-        })
-}
-
-function query4(callback) {
-    // select userid, name from users where userid="/02/"
-    User.find({ 'userid': { '$regex': '02' } }, { '_id': 0 })
-        .select('userid name').exec(function (err, user) {
-            console.log('\nQuery 4')
-            console.log(user + "\n")
-            callback(null)
-        })
-}
-
-function query5(callback) {
-    // using JSON doc query
-    // select userid, name, age from users where city="seoul" and age > 15 and age < 23
-    User.find({ 'city': 'Seoul', 'age': { $gt: 14, $lt: 23 } }, { '_id': 0 })
-        .sort({ 'age': -1 })
-        .select('userid name age')
-        .exec(function (err, user) {
-            console.log('\nQuery 5')
-            console.log(user + "\n")
-            callback(null)
-        })
-}
-
-function query6(callback) {
-    // using querybuilder
-    // select userid, name, age from users city="seoul" and age > 15 and age < 30 order by age 
-    User.find({}, { '_id': 0 })
-        .where('city').equals('Seoul')
-        .where('age').gt(15).lt(30)
-        .sort({ 'age': 1 })
-        .select('userid name age')
-        .exec(function (err, user) {
-            console.log('\nQuery 6')
-            console.log(user + "\n")
-            callback(null)
-        })
-}
