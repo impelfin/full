@@ -5,7 +5,7 @@ metadata:
   labels:
     app: weathers
 spec:
-  replicas: 1   # three pod
+  replicas: 4   # three pod
   selector:
     matchLabels:
       app: weathers
