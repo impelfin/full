@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Hello from './Hello';
+import Wrapper from './Wrapper';
 
-class App extends Component {
-  render() {
-    return <div className="App">Hello app.js!!</div>;
-  }
+function App() {
+  return (
+    <Wrapper>
+      <Hello name="React!!" color="red" />
+      <Hello color="pink" />
+    </Wrapper>
+  );
 }
 
 export default App;
