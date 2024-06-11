@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: remoteapi
+  name: weathers
   labels:
-    run: remoteapi
+    run: weathers
 spec:
   type: NodePort        # service type
   ports:
@@ -13,7 +13,7 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: remoteapi
+    app: weathers
   type: LoadBalancer
   externalIPs:
     - 3.37.52.229
