@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pacman 
+  labels:
+    app: pacman 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pacman 
+  template:
+    metadata:
+      labels:
+        app: pacman 
+    spec:
+      containers:
+      - name: pacman 
+        image: "docker.io/jessehoch/pacman-nodejs-app:latest" 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pacman 
+spec:
+  selector:
+    app: pacman 
+  ports:
+    - nodePort : 30800 
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  type: LoadBalancer
+  externalIPs:
+    - 3.37.52.229 
