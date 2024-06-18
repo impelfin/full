@@ -23,7 +23,7 @@ def run_conversation_temp(user_query):
                 "properties": {
                     "product_name": {
                         "type": "string",
-                        "description": "Product name. for example 'keyboard', 'mouse'"
+                        "description": "Product . for example 'keyboard', 'mouse'"
                     }
                 },
                 "required": ["product_name"]
@@ -42,5 +42,13 @@ def run_conversation_temp(user_query):
 
     return response_messages
 
-response_messages = run_conversation_temp("아이폰 15의 가격은 얼마인가요?")
+user_query = "키보드의 가격은 얼마인가요?"
+response_messages = run_conversation_temp(user_query)
 print(json.dumps(response_messages, ensure_ascii=False))
+print(response_messages["function_call"])
+
+user_query = "마우스의 가격은 얼마인가요?"
+response_messages = run_conversation_temp(user_query)
+print(json.dumps(response_messages, ensure_ascii=False))
+print(response_messages["function_call"])
+
