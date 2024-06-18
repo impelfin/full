@@ -1,55 +1,58 @@
 import openai
 import json
 
+# 호출 함수
 def get_price_info_temp(product_name):
+    
     price_info = {
         "product_name": product_name,
         "price": "10,000"
     }
+    
+    return json.dumps(price_info) # JSON 형식으로 변환해 반환
 
-    return json.dumps(price_info)
-
-def run_conversation_temp(user_query):
-    messages = [
-        {"role": "user", "content": user_query}
-    ]
-
-    functions = [
+# Chat Completions API에 사용자 입력과 함수 정보를 보내는 함수
+def run_conversation_temp(user_query):   
+    # 사용자 입력
+    messages = [{"role": "user", "content": user_query}] 
+        
+    # 함수 정보 입력   
+    functions = [                                        
         {
             "name": "get_price_info_temp",
-            "description": "Get price info",
+            "description": "제품 이름에 따른 가격 가져오기",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "product_name": {
                         "type": "string",
-                        "description": "Product . for example 'keyboard', 'mouse'"
-                    }
+                        "description": "제품 이름. 예를 들면, 키보드, 마우스",
+                    },
                 },
-                "required": ["product_name"]
-            }
+                "required": ["product_name"],
+            },
         }
     ]
-
-    response = openai.ChatCompletion.create(
-        model = "gpt-3.5-turbo",
-        messages = messages,
-        functions = functions,
-        function_call = "auto"
+    # 1단계: 사용자 입력과 함수 정보를 Chat Completions API 모델로 보내기    
+    response = openai.ChatCompletion.create( # Chat Completions API 모델로 보내기
+            model="gpt-3.5-turbo",
+            # model="gpt-4",
+            messages=messages,
+            functions=functions,
+            function_call="auto"
     )
+    # 2단계: 응답 생성
+    response_message = response["choices"][0]["message"] # 응답 메시지
+    
+    return response_message # 응답 메시지 반환
 
-    response_messages = response["choices"][0]["message"]
+user_query = "마우스는 얼마인가요?"
+response_message = run_conversation_temp(user_query)
+print(json.dumps(response_message, ensure_ascii=False))
+print(response_message.get("function_call")) 
 
-    return response_messages
+print(response_message["function_call"]["name"])
 
-user_query = "마우스의 가격은 얼마인가요?"
-response_messages = run_conversation_temp(user_query)
-print(json.dumps(response_messages, ensure_ascii=False))
-print(response_messages["function_call"])
+print(json.loads(response_message["function_call"]["arguments"]))
 
-print(response_messages['function_call']['name'])
-
-print(json.loads(response_messages['function_call']['arguments']))
-
-print(json.loads(response_messages['function_call']['arguments'])["product_name"])
-
+print(json.loads(response_message["function_call"]["arguments"])["product_name"])
