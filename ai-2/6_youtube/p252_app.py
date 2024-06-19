@@ -40,9 +40,9 @@ def download_youtube_as_mp3(video_url, folder, file_name=None):
     filename_no_ext = remove_invalid_char_for_filename(title)
 
     if file_name == None:
-        download_file = f"{filename_no_ext}.mp3"
+        download_file = f"{filename_no_ext}"
     else:
-        download_file = f"{file_name}.mp3"
+        download_file = f"{file_name}"
 
     outtmpl_str = Path(folder) / download_file
 
@@ -86,6 +86,7 @@ print('-' * 70)
 #
 # Audio 자막을 Text로 변환. 다중언어인 경우 영어로 출력
 def audio_transcribe(input_path, resp_format="text", lang="en"):
+    input_path = str(input_path) + ".mp3"
     with open(input_path, "rb") as f:
         transcript = openai.Audio.transcribe(
             model = "whisper-1",
