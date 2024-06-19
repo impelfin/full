@@ -42,7 +42,7 @@ def download_youtube_as_mp3(video_url, folder, file_name=None):
     if file_name == None:
         download_file = f"{filename_no_ext}.mp3"
     else:
-        download_file = file_name
+        download_file = f"{file_name}.mp3"
 
     outtmpl_str = f'{folder}/{download_file}'
     download_path = Path(outtmpl_str)  
@@ -68,7 +68,7 @@ def download_youtube_as_mp3(video_url, folder, file_name=None):
 
     return title, download_path
 
-video_url = 'https://www.youtube.com/watch?v=Ks-_Mh1QhMc'
+video_url = 'https://youtu.be/RcGyVTAoXEU?si=49Frho5vGyYQsGxd'
 download_folder = "./data" # 다운로드할 폴더는 미리 생성 후 지정
 file_name = "youtube_video_file"        # 오디오 파일 이름 지정
 title, download_path = download_youtube_as_mp3(video_url, download_folder, file_name)
