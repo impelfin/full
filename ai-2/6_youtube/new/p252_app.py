@@ -89,7 +89,7 @@ if download_path:
 else:
     print(f"Error downloading video : {title}")
 
-print('-' * 70)
+print('-' * 50)
 
 
 ## Part 2 
@@ -130,7 +130,7 @@ print(f"- [텍스트 추출 형식] {r_format}\n")
 print(f"- [출력 파일] {output_path.name}\n")
 print(f"- [음성 추출 결과(일부 출력)]\n {shorten_text[:137]}\n")
 
-print('-' * 70)
+print('-' * 50)
 
 
 ## Part 3
@@ -184,17 +184,17 @@ file_name = translate_file
 with open(file_name, "r", encoding="utf-8") as f:
     text = f.read()
 
-print('-' * 70)
+print('-' * 50)
 
 question_info = text
 prompt = "마이크로 소프트는 OpenAI 개발에 얼마를 투자했나요?"
 print(prompt)
 response = answer_from_given_info(question_info, prompt)
 print(response)
-print('-' * 70)
+print('-' * 50)
 
 prompt = "KBS가 인터뷰한 사람은 누구인가요?"
 print(prompt)
 response = answer_from_given_info(question_info, prompt)
 print(response)
-print('-' * 70)
+print('-' * 50)
