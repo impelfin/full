@@ -23,10 +23,9 @@ print(f"모델 로드 중: {base_model_id}...")
 model = AutoModelForCausalLM.from_pretrained(
     base_model_id,
     device_map="auto",
-    torch_dtype=torch.float16
+    torch_dtype=torch.float16 # fp16/bf16을 False로 했으므로, torch_dtype은 float16으로 유지
 )
 model.config.use_cache = False
-# model.config.pretraining_tp = 1
 
 tokenizer = AutoTokenizer.from_pretrained(base_model_id, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
@@ -75,15 +74,15 @@ sft_training_args = SFTConfig(
     logging_steps=10,
     push_to_hub=False,
     report_to="none",
-    fp16=True,
-    bf16=False,
+    fp16=False, # <-- False로 변경
+    bf16=False, # <-- False로 변경
     max_grad_norm=0.3,
     warmup_ratio=0.03,
     group_by_length=True,
     disable_tqdm=False,
     max_seq_length=512,
     dataset_text_field="text",
-    packing=False, # <-- SFTConfig로 packing 이동
+    packing=False,
 )
 
 # --- 7. SFTTrainer 설정 및 학습 시작 ---
@@ -92,8 +91,6 @@ trainer = SFTTrainer(
     train_dataset=dataset,
     peft_config=peft_config,
     args=sft_training_args,
-    # tokenizer=tokenizer, # 제거됨
-    # packing=False, # 제거됨
 )
 
 print("\n--- 파인튜닝 시작 ---")
