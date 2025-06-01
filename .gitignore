@@ -37,6 +37,8 @@ python/**/work
 **/model.safetensors
 **/llama.cpp
 **/*.gguf
+**/training_data
+**/sft.json
 **/*-finetuned-sft
 
 ## oracle
