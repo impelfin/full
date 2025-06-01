@@ -123,9 +123,9 @@ tokenizer.save_pretrained(merged_model_save_path)
 
 print(f"\n병합된 모델이 '{merged_model_save_path}'에 저장되었습니다. 이제 GGUF로 변환할 수 있습니다.")
 
-# --- 10. GGUF 변환 (llama.cpp의 convert.py 사용) ---
+# --- 10. GGUF 변환 (llama.cpp의 convert_hf_to_gguf.py 사용) ---
 llama_cpp_path = "llama.cpp"
-convert_py_path = os.path.join(llama_cpp_path, "convert.py")
+convert_py_path = os.path.join(llama_cpp_path, "convert_hf_to_gguf.py")
 
 if not os.path.exists(convert_py_path):
     print(f"\n경고: '{convert_py_path}'를 찾을 수 없습니다.")
