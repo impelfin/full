@@ -35,6 +35,7 @@ python/**/imsi*
 python/**/somefolder*
 python/**/work
 **/model.safetensors
+**/llama.cpp
 
 ## oracle
 oracle/node/dbConfig.js
