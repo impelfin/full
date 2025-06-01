@@ -36,6 +36,8 @@ python/**/somefolder*
 python/**/work
 **/model.safetensors
 **/llama.cpp
+**/*.gguf
+
 
 ## oracle
 oracle/node/dbConfig.js
